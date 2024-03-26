@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="styleloginregister.css">
+</head>
+<body>
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form id="loginForm" action="/api/users/login" method="post"> <!-- Adăugat atributul action -->
+    <h3>Login Here</h3>
+    <label for="username">Username</label>
+    <input type="text" placeholder="Username" id="username" name="username" required>
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" name="password" required>
+    <button type="submit">Login</button>
+    <div class="social">
+        <div class="go"><i class="fab fa-google"></i>  Google</div>
+        <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+    </div>
+</form>
+</body>
+</html>

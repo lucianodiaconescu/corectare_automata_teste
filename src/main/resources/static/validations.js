@@ -46,3 +46,29 @@ function checkFormValidity() {
         registerButton.disabled = true;
     }
 }
+
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Previne acțiunea implicită a trimiterii formularului
+
+    // Colectează datele din formular
+    var formData = new FormData(this);
+
+    // Trimite datele către server folosind AJAX
+    fetch('/api/users/register', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Registration successful!');
+                // Redirect utilizatorul către pagina de login sau altă pagină după înregistrare, dacă este necesar
+                window.location.href = '/login'; // Exemplu de redirecționare către pagina de login
+            } else {
+                alert('Registration failed! Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error during registration:', error);
+            alert('An error occurred during registration. Please try again later.');
+        });
+});

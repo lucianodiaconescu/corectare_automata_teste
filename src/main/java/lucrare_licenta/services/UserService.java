@@ -34,10 +34,10 @@ public class UserService {
     public UserEntity updateUser(UUID id, UserEntity newUser) {
         UserEntity existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
-            newUser.setId(existingUser.getId()); // Make sure the ID remains the same
+            newUser.setId(existingUser.getId());
             return userRepository.save(newUser);
         }
-        return null; // Or throw an exception, handle as needed
+        return null;
     }
 
     public void deleteUser(UUID id) {

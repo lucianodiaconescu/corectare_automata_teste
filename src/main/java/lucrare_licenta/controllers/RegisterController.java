@@ -16,7 +16,6 @@ public class RegisterController {
     public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
     }
-
     @PostMapping("/api/users/register")
     public ModelAndView registerUser(
             @RequestParam("firstname") String firstName,
@@ -26,9 +25,9 @@ public class RegisterController {
         ModelAndView modelAndView = new ModelAndView();
         try {
             registerService.registerUser(firstName, lastName, email, password);
-            modelAndView.setViewName("redirect:/success");
+            modelAndView.setViewName("redirect:/login");
         } catch (IllegalArgumentException e) {
-            modelAndView.setViewName("redirect:/error");
+            modelAndView.setViewName("redirect:/register");
         }
         return modelAndView;
     }

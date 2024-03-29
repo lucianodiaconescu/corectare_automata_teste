@@ -25,6 +25,7 @@ public class LoginController {
 
         boolean isAuthenticated = loginService.authenticateUser(email, password);
         if (isAuthenticated) {
+            modelAndView.addObject("email", email);
             modelAndView.setViewName("logged");
         } else {
             modelAndView.setViewName("redirect:/login");

@@ -3,6 +3,7 @@ package lucrare_licenta.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class ViewController {
@@ -16,17 +17,17 @@ public class ViewController {
     public String showRegisterPage() {
         return "register";
     }
-    @GetMapping("/createtests")
+    @GetMapping("/api/users/createtests")
     public String showCreateTestsPage() {
-        return "redirect:/login";
+        return "createtests";
     }
-    @GetMapping("/scantests")
+    @GetMapping("/api/users/scantests")
     public String showScanTestsPage() {
-        return "redirect:/login";
+        return "scantests";
     }
-    @GetMapping("/viewtests")
+    @GetMapping("/api/users/viewtests")
     public String showViewTestsPage() {
-        return "redirect:/login";
+        return "viewtests";
     }
     @GetMapping("/logged")
     public String showLoggedPage() {
@@ -36,4 +37,9 @@ public class ViewController {
     public String showHomePage() {
         return "home";
     }
+    @GetMapping("/api/users/home")
+    public RedirectView showLogoutPage() {
+        return new RedirectView("/login");
+    }
+
 }

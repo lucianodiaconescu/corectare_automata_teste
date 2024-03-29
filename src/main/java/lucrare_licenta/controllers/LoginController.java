@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     private final LoginService loginService;
+    private String loggedInUserEmail; // Adaugarea unui membru pentru a stoca adresa de email a utilizatorului autentificat
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -25,11 +26,16 @@ public class LoginController {
 
         boolean isAuthenticated = loginService.authenticateUser(email, password);
         if (isAuthenticated) {
+            loggedInUserEmail = email;
             modelAndView.addObject("email", email);
             modelAndView.setViewName("logged");
         } else {
             modelAndView.setViewName("redirect:/login");
         }
         return modelAndView;
+    }
+
+    public String getLoggedInUserEmail() {
+        return loggedInUserEmail;
     }
 }

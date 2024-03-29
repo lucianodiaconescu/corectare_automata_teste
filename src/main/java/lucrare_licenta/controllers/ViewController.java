@@ -17,18 +17,6 @@ public class ViewController {
     public String showRegisterPage() {
         return "register";
     }
-    @GetMapping("/api/users/createtests")
-    public String showCreateTestsPage() {
-        return "createtests";
-    }
-    @GetMapping("/api/users/scantests")
-    public String showScanTestsPage() {
-        return "scantests";
-    }
-    @GetMapping("/api/users/viewtests")
-    public String showViewTestsPage() {
-        return "viewtests";
-    }
     @GetMapping("/logged")
     public String showLoggedPage() {
         return "redirect:/login";

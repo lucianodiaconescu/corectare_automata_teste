@@ -60,11 +60,19 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     })
         .then(response => {
             if (response.ok) {
+                return response.json(); // Parsează răspunsul JSON
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(data => {
+            // Verifică conținutul răspunsului pentru a decide mesajul de afișat
+            if (data.success) {
                 alert('Registration successful!');
                 // Redirect utilizatorul către pagina de login sau altă pagină după înregistrare, dacă este necesar
                 window.location.href = '/login'; // Exemplu de redirecționare către pagina de login
             } else {
-                alert('Registration failed! Please try again.');
+                alert('Registration failed! Email already exists.');
             }
         })
         .catch(error => {

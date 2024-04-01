@@ -14,9 +14,8 @@ import java.util.UUID;
 @Data
 public class QuestionsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    private UUID id_test;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long id_test;
     private String question;
-    private String correctLetter;
 }

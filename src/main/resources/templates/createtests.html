@@ -32,6 +32,17 @@
 <section class="home">
 </section>
 
+<div class="form-container">
+    <h2>Create Test!</h2>
+    <form id="createForm" action="/api/users/createtests" method="post">
+        <label for="testName">Test Name:</label><br>
+        <input type="text" id="testName" name="testName" required><br>
+        <button type="submit">Create!</button>
+    </form>
+</div>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/scriptnavbar.js"></script>
 

@@ -31,10 +31,40 @@
 
 <section class="home">
 </section>
-
+<div class="table-container">
+    <h2>View Tests</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Test ID</th>
+            <th>Test Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="test : ${tests}">
+            <td th:text="${test.id}" class="test-id"></td>
+            <td th:text="${test.testName}" class="test-name"></td>
+            <td>
+                <button class="toggle-data">Toggle Data</button>
+                <div class="data-container" style="display: none;">
+                    <p>ID: <span class="data-id"></span></p>
+                    <p>Test Name: <span class="data-test-name"></span></p>
+                    <p>Email: <span class="data-email"></span></p>
+                </div>
+                <form action="/api/users/delete-test" method="post" class="delete-form" style="display: inline;">
+                    <input type="hidden" name="testId" th:value="${test.id}" />
+                    <button type="submit" class="delete-button">Delete Test</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/scriptnavbar.js"></script>
+<script src="/toggle.js"></script>
 
 </body>
 </html>

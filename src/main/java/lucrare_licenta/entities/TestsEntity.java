@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "tests_entity", schema = "lucrare_lic")
 @AllArgsConstructor
@@ -14,8 +12,8 @@ import java.util.UUID;
 @Data
 public class TestsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    private UUID id_user;
-    private Integer numberOfQuestions;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String emailUser;
+    private String testName;
 }

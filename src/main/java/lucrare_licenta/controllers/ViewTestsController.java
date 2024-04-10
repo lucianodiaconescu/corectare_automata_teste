@@ -31,7 +31,7 @@ public class ViewTestsController {
         List<TestsEntity> tests = testsService.getAllTestsForUser(loggedInEmail);
         modelAndView.addObject("tests", tests);
 
-       //questions get logic
+        //questions get logic
 
         return modelAndView;
     }
@@ -42,4 +42,3 @@ public class ViewTestsController {
     }
 
 }
-

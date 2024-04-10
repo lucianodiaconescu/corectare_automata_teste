@@ -14,7 +14,7 @@ $(document).ready(function() {
         $(this).closest('tr').find('.data-email').text($email);
     });
 
-    $('.delete-form').submit(function(event) {
+    $('.delete-test-form').submit(function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
         var form = $(this);
         var url = form.attr('action');
@@ -24,6 +24,7 @@ $(document).ready(function() {
             .done(function(response) {
                 // Handle success response here, if needed
                 console.log(response);
+                window.location.href = '/api/users/viewtests'; // Redirect to viewtests page
             })
             .fail(function(error) {
                 // Handle error response here, if needed

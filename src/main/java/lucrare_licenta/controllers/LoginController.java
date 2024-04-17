@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     private final LoginService loginService;
-    private String loggedInUserEmail; // Adaugarea unui membru pentru a stoca adresa de email a utilizatorului autentificat
+    private String loggedInUserEmail;
 
     @Autowired
     public LoginController(LoginService loginService) {

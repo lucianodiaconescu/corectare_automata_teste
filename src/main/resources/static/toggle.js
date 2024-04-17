@@ -15,19 +15,17 @@ $(document).ready(function() {
     });
 
     $('.delete-test-form').submit(function(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
+        event.preventDefault();
         var form = $(this);
         var url = form.attr('action');
         var formData = form.serialize();
 
         $.post(url, formData)
             .done(function(response) {
-                // Handle success response here, if needed
                 console.log(response);
-                window.location.href = '/api/users/viewtests'; // Redirect to viewtests page
+                window.location.href = '/api/users/viewtests';
             })
             .fail(function(error) {
-                // Handle error response here, if needed
                 console.log(error);
             });
     });

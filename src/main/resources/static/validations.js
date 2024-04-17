@@ -48,29 +48,25 @@ function checkFormValidity() {
 }
 
 document.getElementById("registerForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Previne acțiunea implicită a trimiterii formularului
+    event.preventDefault();
 
-    // Colectează datele din formular
     var formData = new FormData(this);
 
-    // Trimite datele către server folosind AJAX
     fetch('/api/users/register', {
         method: 'POST',
         body: formData
     })
         .then(response => {
             if (response.ok) {
-                return response.json(); // Parsează răspunsul JSON
+                return response.json();
             } else {
                 throw new Error('Network response was not ok.');
             }
         })
         .then(data => {
-            // Verifică conținutul răspunsului pentru a decide mesajul de afișat
             if (data.success) {
                 alert('Registration successful!');
-                // Redirect utilizatorul către pagina de login sau altă pagină după înregistrare, dacă este necesar
-                window.location.href = '/login'; // Exemplu de redirecționare către pagina de login
+                window.location.href = '/login';
             } else {
                 alert('Registration failed! Email already exists.');
             }

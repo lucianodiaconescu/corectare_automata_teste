@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700');
+
 html,
 body {
     margin: 0;
@@ -329,11 +330,6 @@ body {
     background-color: #111;
 }
 
-
-
-
-
-
 .myH2 {
     text-align:center;
     font-size: 4rem;
@@ -424,4 +420,35 @@ tr:hover {
 
 .toggle-data:hover {
     background-color: #0056b3;
+}
+
+.data-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.question-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.question-list li {
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #007bff;
 }

@@ -22,14 +22,13 @@ h1 {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 2px;
-    margin-bottom: 30px; /* Adaugă o margină inferioară între h1 și butoane */
+    margin-bottom: 30px;
 }
 
-/* Container pentru butoane */
 .button-container {
     display: flex;
-    flex-direction: column; /* Aliniază butoanele vertical */
-    align-items: center; /* Aliniază butoanele pe axa orizontală */
+    flex-direction: column;
+    align-items: center;
 }
 
 .kave-btn {
@@ -46,7 +45,7 @@ h1 {
     transition: all 0.25s ease;
     outline: none;
     cursor: pointer;
-    margin-bottom: 20px; /* Adaugă un spațiu între butoane */
+    margin-bottom: 20px;
 }
 
 .kave-btn:before {

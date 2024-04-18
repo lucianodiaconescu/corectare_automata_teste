@@ -51,25 +51,31 @@
                     <input type="hidden" name="testId" th:value="${test.id}" />
                     <button type="submit" class="delete-button">Delete Test</button>
                 </form>
-                <button class="toggle-data" data-test-id="${test.id}">Toggle Data</button>
-                <div class="data-container" style="display: none;">
-                    <h3>Questions for Test ID: <span class="test-id"></span></h3>
-                    <ul class="question-list">
-                        <!-- Aici vor fi afișate întrebările -->
-                    </ul>
-                </div>
+
                 <form action="/api/users/add-question" method="post" class="add-question-form" style="display: inline;">
                     <input type="hidden" name="testId" th:value="${test.id}" />
                     <button type="submit">Add Question</button>
                     <textarea name="question" placeholder="Enter your question"></textarea>
                 </form>
+
+                <button type="button" class="toggle-button">Show Questions</button>
+                <ul class="questions-list" style="display: none;">
+                    <li th:each="question : ${questionsMap[test.id]}">
+                        <span th:text="${question.question}"></span>
+                    </li>
+                </ul>
             </td>
         </tr>
         </tbody>
+
+
     </table>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/toggle.js"></script>
+
+
 
 </body>
 </html>

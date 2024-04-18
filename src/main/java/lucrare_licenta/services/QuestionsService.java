@@ -21,4 +21,7 @@ public class QuestionsService {
     public void addQuestion(QuestionsEntity question) {
         questionsRepository.save(question);
     }
+    public List<QuestionsEntity> getQuestionsForTest(Long testId) {
+        return questionsRepository.findByIdTest(testId);
+    }
 }

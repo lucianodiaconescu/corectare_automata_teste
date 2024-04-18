@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -39,6 +41,12 @@ public class ViewTestsController {
         List<TestsEntity> tests = testsService.getAllTestsForUser(loggedInEmail);
         modelAndView.addObject("tests", tests);
 
+        Map<Long, List<QuestionsEntity>> questionsMap = new HashMap<>();
+        for (TestsEntity test : tests) {
+            List<QuestionsEntity> questions = questionsService.getQuestionsForTest(test.getId());
+            questionsMap.put(test.getId(), questions);
+        }
+        modelAndView.addObject("questionsMap", questionsMap);
 
         return modelAndView;
     }
@@ -52,7 +60,7 @@ public class ViewTestsController {
     @PostMapping("/api/users/add-question")
     public String addQuestion(@RequestParam("testId") Long testId, @RequestParam("question") String question) {
         QuestionsEntity newQuestion = new QuestionsEntity();
-        newQuestion.setId_test(testId);
+        newQuestion.setIdTest(testId);
         newQuestion.setQuestion(question);
 
         questionsService.addQuestion(newQuestion);
@@ -60,6 +68,10 @@ public class ViewTestsController {
         return "redirect:/api/users/viewtests";
     }
 
-
+    @GetMapping("/api/users/questions/{testId}")
+    @ResponseBody
+    public List<QuestionsEntity> getQuestionsForTest(@PathVariable("testId") Long testId) {
+        return questionsService.getQuestionsForTest(testId);
+    }
 
 }

@@ -408,7 +408,7 @@ tr:hover {
     background-color: #f5f5f5;
 }
 
-.toggle-data {
+.toggle-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -418,7 +418,7 @@ tr:hover {
     transition: background-color 0.3s;
 }
 
-.toggle-data:hover {
+.toggle-button:hover {
     background-color: #0056b3;
 }
 

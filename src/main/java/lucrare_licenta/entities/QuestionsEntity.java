@@ -14,6 +14,7 @@ public class QuestionsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long id_test;
+    @Column(name = "id_test")
+    private Long idTest;
     private String question;
 }

@@ -1,8 +1,10 @@
 package lucrare_licenta.controllers;
 
+import lucrare_licenta.entities.AnswersEntity;
 import lucrare_licenta.entities.QuestionsEntity;
 import lucrare_licenta.entities.TestsEntity;
 import lucrare_licenta.repositories.QuestionsRepository;
+import lucrare_licenta.services.AnswersService;
 import lucrare_licenta.services.QuestionsService;
 import lucrare_licenta.services.TestsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,15 @@ public class ViewTestsController {
     private final LoginController loginController;
     private final QuestionsService questionsService;
     private final QuestionsRepository questionsRepository;
+    private final AnswersService answersService;
 
     @Autowired
-    public ViewTestsController(TestsService testsService, LoginController loginController, QuestionsService questionsService, QuestionsRepository questionsRepository) {
+    public ViewTestsController(TestsService testsService, LoginController loginController, QuestionsService questionsService, QuestionsRepository questionsRepository, AnswersService answersService) {
         this.testsService = testsService;
         this.loginController = loginController;
         this.questionsService = questionsService;
         this.questionsRepository = questionsRepository;
+        this.answersService = answersService;
     }
 
     @GetMapping("/api/users/viewtests")
@@ -72,6 +76,25 @@ public class ViewTestsController {
     @ResponseBody
     public List<QuestionsEntity> getQuestionsForTest(@PathVariable("testId") Long testId) {
         return questionsService.getQuestionsForTest(testId);
+    }
+
+    @PostMapping("/api/users/add-answer")
+    public String addAnswer(@RequestParam("questionId") Long questionId, @RequestParam("answer") String answer, @RequestParam(value = "correct", required = false) String correct) {
+        AnswersEntity newAnswer = new AnswersEntity();
+        newAnswer.setIdQuestion(questionId);
+        newAnswer.setAnswer(answer);
+
+        String letter =  (char)(answersService.getAllAnswersByQuestionId(questionId).size() + 65) + " ";
+
+        newAnswer.setAnswerLetter(letter);
+
+        if (correct != null)
+            newAnswer.setCorrect(true);
+        else
+            newAnswer.setCorrect(false);
+
+        answersService.addAnswer(newAnswer);
+        return "redirect:/api/users/viewtests";
     }
 
 }

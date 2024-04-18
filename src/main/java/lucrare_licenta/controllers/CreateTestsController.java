@@ -29,7 +29,7 @@ public class CreateTestsController {
     public String createTest(String testName) {
         String loggedInEmail = loginController.getLoggedInUserEmail();
         testsService.createTest(loggedInEmail, testName);
-        return "redirect:/api/users/createtests";
+        return "redirect:/api/users/viewtests";
     }
 
 }

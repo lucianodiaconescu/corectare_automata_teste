@@ -62,6 +62,15 @@
                 <ul class="questions-list" style="display: none;">
                     <li th:each="question : ${questionsMap[test.id]}">
                         <span th:text="${question.question}"></span>
+
+                        <form action="/api/users/add-answer" method="post" class="add-answer-form" style="display: inline;">
+                            <input type="hidden" name="questionId" th:value="${question.id}" />
+                            <button type="submit">Add Answer</button>
+                            <textarea name="answer" placeholder="Enter your answer"></textarea>
+                            <input id="correct" type="checkbox" name="correct">
+                            <label for="correct">Correct</label>
+                        </form>
+
                     </li>
                 </ul>
             </td>

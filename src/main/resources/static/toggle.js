@@ -5,3 +5,11 @@ $(document).ready(function() {
         questionsList.toggle();
     });
 });
+
+$(document).ready(function() {
+    $('.answers-list').hide();
+    $('.toggle-button-show-answers').click(function() {
+        var answersList = $(this).next('.answers-list');
+        answersList.toggle();
+    });
+});

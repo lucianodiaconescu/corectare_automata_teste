@@ -1,6 +1,7 @@
 package lucrare_licenta.services;
 
 import lucrare_licenta.entities.AnswersEntity;
+import lucrare_licenta.entities.QuestionsEntity;
 import lucrare_licenta.repositories.AnswersRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class AnswersService {
     }
 
     public List<AnswersEntity> getAllAnswersByQuestionId(Long questionId){
+        return answersRepository.findAllByIdQuestion(questionId);
+    }
+
+    public List<AnswersEntity> getAnswersForQuestion(Long questionId) {
         return answersRepository.findAllByIdQuestion(questionId);
     }
 }

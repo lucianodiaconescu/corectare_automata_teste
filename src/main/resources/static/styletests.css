@@ -70,7 +70,7 @@ body {
 
 .home {
     width: 100%;
-    height: 100vh;
+    height: 35vh;
     background-image: url(https://images.unsplash.com/photo-1498550744921-75f79806b8a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0f6908fa5e81286213c7211276e6b3d&auto=format&fit=crop&w=1500&q=80);
     background-position: center top;
     background-size:cover;
@@ -347,9 +347,15 @@ body {
 }
 
 .form-container {
-    width: 50%;
-    margin: 0 auto;
-    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 h2 {
@@ -370,17 +376,19 @@ input[type="text"] {
 }
 
 button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 8px 0;
+    font-size: 18px;
+    font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #E0E0E0;
 }
 
 .table-container {
@@ -396,12 +404,12 @@ table {
 th, td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
+    font-size: 25px;
 }
 
 th {
     background-color: #f2f2f2;
     color: #333;
-    text-align: left;
 }
 
 tr:hover {
@@ -409,17 +417,19 @@ tr:hover {
 }
 
 .toggle-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .toggle-button:hover {
-    background-color: #0056b3;
+    background-color: #E0E0E0;
 }
 
 .data-container {

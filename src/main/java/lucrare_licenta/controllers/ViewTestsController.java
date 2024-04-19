@@ -45,14 +45,24 @@ public class ViewTestsController {
         modelAndView.addObject("tests", tests);
 
         Map<Long, List<QuestionsEntity>> questionsMap = new HashMap<>();
+        Map<Long, List<AnswersEntity>> answersMap = new HashMap<>();
+
         for (TestsEntity test : tests) {
             List<QuestionsEntity> questions = questionsService.getQuestionsForTest(test.getId());
             questionsMap.put(test.getId(), questions);
+
+            for (QuestionsEntity question : questions) {
+                List<AnswersEntity> answers = answersService.getAnswersForQuestion(question.getId());
+                answersMap.put(question.getId(), answers);
+            }
         }
+
         modelAndView.addObject("questionsMap", questionsMap);
+        modelAndView.addObject("answersMap", answersMap);
 
         return modelAndView;
     }
+
 
     @PostMapping("/api/users/delete-test")
     public String deleteTest(@RequestParam("testId") Long testId) {

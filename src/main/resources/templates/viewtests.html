@@ -47,15 +47,12 @@
             <td th:text="${test.id}" class="test-id"></td>
             <td th:text="${test.testName}" class="test-name"></td>
             <td>
-                <form action="/api/users/delete-test" method="post" class="delete-form" style="display: inline;">
-                    <input type="hidden" name="testId" th:value="${test.id}" />
-                    <button type="submit" class="delete-button">Delete Test</button>
-                </form>
+
 
                 <form action="/api/users/add-question" method="post" class="add-question-form" style="display: inline;">
                     <input type="hidden" name="testId" th:value="${test.id}" />
-                    <button type="submit">Add Question</button>
                     <textarea name="question" placeholder="Enter your question"></textarea>
+                    <button type="submit">Add Question</button>
                 </form>
 
                 <button type="button" class="toggle-button">Show Questions</button>
@@ -65,14 +62,28 @@
 
                         <form action="/api/users/add-answer" method="post" class="add-answer-form" style="display: inline;">
                             <input type="hidden" name="questionId" th:value="${question.id}" />
-                            <button type="submit">Add Answer</button>
                             <textarea name="answer" placeholder="Enter your answer"></textarea>
+                            <button type="submit">Add Answer</button>
+
                             <input id="correct" type="checkbox" name="correct">
-                            <label for="correct">Correct</label>
+                            <label>Correct</label>
+
+
+                            <button type="button" class="toggle-button-show-answers">Show Answers</button>
+                            <ul class="answers-list" style="display: none;">
+                                <li th:each="answer : ${answersMap[question.id]}">
+                                    <span th:text="${answer.answer}"></span>
+                                </li>
+                            </ul>
+
                         </form>
 
                     </li>
                 </ul>
+                <form action="/api/users/delete-test" method="post" class="delete-form" style="display: inline;">
+                    <input type="hidden" name="testId" th:value="${test.id}" />
+                    <button type="submit" class="delete-button">Delete Test</button>
+                </form>
             </td>
         </tr>
         </tbody>
@@ -83,6 +94,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/toggle.js"></script>
+
 
 
 

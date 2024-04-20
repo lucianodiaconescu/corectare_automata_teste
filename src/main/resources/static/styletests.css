@@ -462,3 +462,19 @@ textarea:focus {
     outline: none;
     border-color: #007bff;
 }
+
+.toggle-button-show-answers {
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-button-show-answers:hover {
+    background-color: #E0E0E0;
+}

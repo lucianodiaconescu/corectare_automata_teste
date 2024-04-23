@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TestsRepository extends JpaRepository<TestsEntity, Long> {
     List<TestsEntity> findAllByEmailUser(String emailUser);
+
 }

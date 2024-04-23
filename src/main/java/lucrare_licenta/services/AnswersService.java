@@ -24,7 +24,7 @@ public class AnswersService {
     }
 
     public List<AnswersEntity> getAnswersForQuestion(Long questionId) {
-        return answersRepository.findAllByIdQuestion(questionId);
+        return answersRepository.findByIdQuestionOrderById(questionId);
     }
 
     public void deleteAnswer(Long answerId) {
@@ -38,4 +38,12 @@ public class AnswersService {
     public AnswersEntity getAnswerById(Long answerId) {
         return answersRepository.findById(answerId).orElse(null);
     }
+
+    public void deleteAllAnswersForQuestion(Long questionId) {
+        List<AnswersEntity> answers = answersRepository.findAllByIdQuestion(questionId);
+        for (AnswersEntity answer : answers) {
+            answersRepository.delete(answer);
+        }
+    }
+
 }

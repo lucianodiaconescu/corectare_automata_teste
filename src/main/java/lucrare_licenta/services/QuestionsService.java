@@ -21,7 +21,7 @@ public class QuestionsService {
         questionsRepository.save(question);
     }
     public List<QuestionsEntity> getQuestionsForTest(Long testId) {
-        return questionsRepository.findByIdTest(testId);
+        return questionsRepository.findByIdTestOrderById(testId);
     }
 
     public QuestionsEntity getQuestionById(Long questionId) {
@@ -35,4 +35,6 @@ public class QuestionsService {
     public void deleteQuestion(Long questionId) {
         questionsRepository.deleteById(questionId);
     }
+
+
 }

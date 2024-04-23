@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,16 +59,21 @@ public class ViewTestsController {
                 Long questionId = question.getId();
 
                 List<AnswersEntity> answers = answersService.getAnswersForQuestion(questionId);
+
+                for (AnswersEntity answer : answers) {
+                    answer.setAnswerLetter(answer.getAnswerLetter());
+                }
                 answersMap.put(questionId, answers);
             }
         }
-
 
         modelAndView.addObject("questionsMap", questionsMap);
         modelAndView.addObject("answersMap", answersMap);
 
         return modelAndView;
     }
+
+
 
 
     @PostMapping("/api/users/delete-test")
@@ -94,23 +100,53 @@ public class ViewTestsController {
     }
 
     @PostMapping("/api/users/add-answer")
-    public String addAnswer(@RequestParam("questionId") Long questionId, @RequestParam("answer") String answer, @RequestParam(value = "correct", required = false) String correct) {
+    public String addAnswer(@RequestParam("questionId") Long questionId,
+                            @RequestParam("answer") String answer,
+                            @RequestParam(value = "correct", required = false) String correct) {
+
+        // Obține toate răspunsurile pentru întrebarea dată
+        List<AnswersEntity> existingAnswers = answersService.getAllAnswersByQuestionId(questionId);
+
+        // Creează o listă de litere disponibile (A, B, C, etc.)
+        List<Character> availableLetters = new ArrayList<>();
+        for (char letter = 'A'; letter <= 'Z'; letter++) {
+            availableLetters.add(letter);
+        }
+
+        // Elimină literele deja folosite
+        for (AnswersEntity existingAnswer : existingAnswers) {
+            char usedLetter = existingAnswer.getAnswerLetter().charAt(0);
+            availableLetters.remove(Character.valueOf(usedLetter));
+        }
+
+        // Verifică dacă mai există litere disponibile
+        if (availableLetters.isEmpty()) {
+            // Nu mai sunt litere disponibile, poți trata această situație aici
+            // În acest exemplu, poți să nu mai adaugi răspunsul sau să faci altceva în consecință
+            // În cazul de față, voi întoarce doar o redirecționare la pagina de vizualizare a testelor
+            return "redirect:/api/users/viewtests";
+        }
+
+        // Obține prima literă disponibilă și o folosește pentru noul răspuns
+        char newLetter = availableLetters.get(0);
+        String letter = String.valueOf(newLetter);
+
+        // Creează un nou obiect de răspuns și setează valorile
         AnswersEntity newAnswer = new AnswersEntity();
         newAnswer.setIdQuestion(questionId);
         newAnswer.setAnswer(answer);
-
-        String letter =  (char)(answersService.getAllAnswersByQuestionId(questionId).size() + 65) + " ";
-
         newAnswer.setAnswerLetter(letter);
 
-        if (correct != null)
-            newAnswer.setCorrect(true);
-        else
-            newAnswer.setCorrect(false);
+        // Setează corectitudinea răspunsului
+        newAnswer.setCorrect(correct != null);
 
+        // Adaugă noul răspuns în baza de date
         answersService.addAnswer(newAnswer);
+
+        // Redirecționează la pagina de vizualizare a testelor
         return "redirect:/api/users/viewtests";
     }
+
     @PostMapping("/api/users/edit-question")
     public String editQuestion(@RequestParam("questionId") Long questionId, @RequestParam("newQuestion") String newQuestionText) {
         QuestionsEntity existingQuestion = questionsService.getQuestionById(questionId);
@@ -124,18 +160,21 @@ public class ViewTestsController {
         questionsService.deleteQuestion(questionId);
         return "redirect:/api/users/viewtests";
     }
-
-    @DeleteMapping("/api/users/delete-answers")
-    public String deleteAnswer(@RequestParam("questionId") Long questionId) {
-        answersRepository.deleteAllByIdQuestion(questionId);
+    @PostMapping("/api/users/delete-answer")
+    public String deleteAnswer(@RequestParam("answerId") Long answerId) {
+        answersService.deleteAnswer(answerId);
         return "redirect:/api/users/viewtests";
     }
-
     @PostMapping("/api/users/edit-answer")
     public String editAnswer(@RequestParam("answerId") Long answerId, @RequestParam("newAnswer") String newAnswerText) {
         AnswersEntity existingAnswer = answersService.getAnswerById(answerId);
         existingAnswer.setAnswer(newAnswerText);
         answersService.updateAnswer(existingAnswer);
+        return "redirect:/api/users/viewtests";
+    }
+    @PostMapping("/api/users/delete-all-answers")
+    public String deleteAllAnswers(@RequestParam("questionId") Long questionId) {
+        answersService.deleteAllAnswersForQuestion(questionId);
         return "redirect:/api/users/viewtests";
     }
 

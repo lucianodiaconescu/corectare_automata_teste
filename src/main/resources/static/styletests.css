@@ -447,6 +447,22 @@ tr:hover {
     background-color: #E0E0E0;
 }
 
+.edit-answer-button {
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-answer-button:hover {
+    background-color: #E0E0E0;
+}
+
 .data-container {
     padding: 20px;
     border: 1px solid #ccc;
@@ -472,6 +488,7 @@ textarea {
     resize: vertical;
     box-sizing: border-box;
 }
+
 
 textarea:focus {
     outline: none;

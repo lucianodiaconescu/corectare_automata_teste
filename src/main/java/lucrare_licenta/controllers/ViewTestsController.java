@@ -3,6 +3,7 @@ package lucrare_licenta.controllers;
 import lucrare_licenta.entities.AnswersEntity;
 import lucrare_licenta.entities.QuestionsEntity;
 import lucrare_licenta.entities.TestsEntity;
+import lucrare_licenta.repositories.AnswersRepository;
 import lucrare_licenta.repositories.QuestionsRepository;
 import lucrare_licenta.services.AnswersService;
 import lucrare_licenta.services.QuestionsService;
@@ -24,14 +25,16 @@ public class ViewTestsController {
     private final QuestionsService questionsService;
     private final QuestionsRepository questionsRepository;
     private final AnswersService answersService;
+    private final AnswersRepository answersRepository;
 
     @Autowired
-    public ViewTestsController(TestsService testsService, LoginController loginController, QuestionsService questionsService, QuestionsRepository questionsRepository, AnswersService answersService) {
+    public ViewTestsController(TestsService testsService, LoginController loginController, QuestionsService questionsService, QuestionsRepository questionsRepository, AnswersService answersService, AnswersRepository answersRepository) {
         this.testsService = testsService;
         this.loginController = loginController;
         this.questionsService = questionsService;
         this.questionsRepository = questionsRepository;
         this.answersService = answersService;
+        this.answersRepository = answersRepository;
     }
 
     @GetMapping("/api/users/viewtests")
@@ -52,10 +55,13 @@ public class ViewTestsController {
             questionsMap.put(test.getId(), questions);
 
             for (QuestionsEntity question : questions) {
-                List<AnswersEntity> answers = answersService.getAnswersForQuestion(question.getId());
-                answersMap.put(question.getId(), answers);
+                Long questionId = question.getId();
+
+                List<AnswersEntity> answers = answersService.getAnswersForQuestion(questionId);
+                answersMap.put(questionId, answers);
             }
         }
+
 
         modelAndView.addObject("questionsMap", questionsMap);
         modelAndView.addObject("answersMap", answersMap);
@@ -103,6 +109,33 @@ public class ViewTestsController {
             newAnswer.setCorrect(false);
 
         answersService.addAnswer(newAnswer);
+        return "redirect:/api/users/viewtests";
+    }
+    @PostMapping("/api/users/edit-question")
+    public String editQuestion(@RequestParam("questionId") Long questionId, @RequestParam("newQuestion") String newQuestionText) {
+        QuestionsEntity existingQuestion = questionsService.getQuestionById(questionId);
+        existingQuestion.setQuestion(newQuestionText);
+        questionsService.updateQuestion(existingQuestion);
+        return "redirect:/api/users/viewtests";
+    }
+
+    @PostMapping("/api/users/delete-question")
+    public String deleteQuestion(@RequestParam("questionId") Long questionId) {
+        questionsService.deleteQuestion(questionId);
+        return "redirect:/api/users/viewtests";
+    }
+
+    @DeleteMapping("/api/users/delete-answers")
+    public String deleteAnswer(@RequestParam("questionId") Long questionId) {
+        answersRepository.deleteAllByIdQuestion(questionId);
+        return "redirect:/api/users/viewtests";
+    }
+
+    @PostMapping("/api/users/edit-answer")
+    public String editAnswer(@RequestParam("answerId") Long answerId, @RequestParam("newAnswer") String newAnswerText) {
+        AnswersEntity existingAnswer = answersService.getAnswerById(answerId);
+        existingAnswer.setAnswer(newAnswerText);
+        answersService.updateAnswer(existingAnswer);
         return "redirect:/api/users/viewtests";
     }
 

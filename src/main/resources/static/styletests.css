@@ -431,6 +431,21 @@ tr:hover {
 .toggle-button:hover {
     background-color: #E0E0E0;
 }
+.edit-question-button {
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-question-button:hover {
+    background-color: #E0E0E0;
+}
 
 .data-container {
     padding: 20px;

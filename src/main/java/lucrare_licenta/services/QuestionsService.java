@@ -23,4 +23,16 @@ public class QuestionsService {
     public List<QuestionsEntity> getQuestionsForTest(Long testId) {
         return questionsRepository.findByIdTest(testId);
     }
+
+    public QuestionsEntity getQuestionById(Long questionId) {
+        return questionsRepository.findById(questionId).orElse(null);
+    }
+
+    public void updateQuestion(QuestionsEntity question) {
+        questionsRepository.save(question);
+    }
+
+    public void deleteQuestion(Long questionId) {
+        questionsRepository.deleteById(questionId);
+    }
 }

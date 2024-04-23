@@ -26,4 +26,16 @@ public class AnswersService {
     public List<AnswersEntity> getAnswersForQuestion(Long questionId) {
         return answersRepository.findAllByIdQuestion(questionId);
     }
+
+    public void deleteAnswer(Long answerId) {
+        answersRepository.deleteById(answerId);
+    }
+
+    public void updateAnswer(AnswersEntity answers) {
+        answersRepository.save(answers);
+    }
+
+    public AnswersEntity getAnswerById(Long answerId) {
+        return answersRepository.findById(answerId).orElse(null);
+    }
 }

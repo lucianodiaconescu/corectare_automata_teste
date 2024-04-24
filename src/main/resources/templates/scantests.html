@@ -52,9 +52,10 @@
                     <button type="button" class="scan-button" onclick="activateCamera()">Scan Test</button>
                 </form>
 
-                <form action="" method="post" class="upload-test" style="display: inline;">
+                <!-- Adăugăm inputul de tip file pentru încărcarea imaginilor -->
+                <form action="/api/users/scan" method="post" enctype="multipart/form-data" class="upload-test" style="display: inline;">
                     <input type="hidden" name="testId" th:value="${test.id}"/>
-
+                    <input type="file" name="image" accept="image/*"/> <!-- Acesta va permite utilizatorului să aleagă fișiere de tip imagine -->
                     <button type="submit" class="upload-button">Upload Image for Scan</button>
                 </form>
             </td>

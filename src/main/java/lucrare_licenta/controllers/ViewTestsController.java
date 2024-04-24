@@ -104,46 +104,34 @@ public class ViewTestsController {
                             @RequestParam("answer") String answer,
                             @RequestParam(value = "correct", required = false) String correct) {
 
-        // Obține toate răspunsurile pentru întrebarea dată
         List<AnswersEntity> existingAnswers = answersService.getAllAnswersByQuestionId(questionId);
 
-        // Creează o listă de litere disponibile (A, B, C, etc.)
         List<Character> availableLetters = new ArrayList<>();
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             availableLetters.add(letter);
         }
 
-        // Elimină literele deja folosite
         for (AnswersEntity existingAnswer : existingAnswers) {
             char usedLetter = existingAnswer.getAnswerLetter().charAt(0);
             availableLetters.remove(Character.valueOf(usedLetter));
         }
 
-        // Verifică dacă mai există litere disponibile
         if (availableLetters.isEmpty()) {
-            // Nu mai sunt litere disponibile, poți trata această situație aici
-            // În acest exemplu, poți să nu mai adaugi răspunsul sau să faci altceva în consecință
-            // În cazul de față, voi întoarce doar o redirecționare la pagina de vizualizare a testelor
             return "redirect:/api/users/viewtests";
         }
 
-        // Obține prima literă disponibilă și o folosește pentru noul răspuns
         char newLetter = availableLetters.get(0);
         String letter = String.valueOf(newLetter);
 
-        // Creează un nou obiect de răspuns și setează valorile
         AnswersEntity newAnswer = new AnswersEntity();
         newAnswer.setIdQuestion(questionId);
         newAnswer.setAnswer(answer);
         newAnswer.setAnswerLetter(letter);
 
-        // Setează corectitudinea răspunsului
         newAnswer.setCorrect(correct != null);
 
-        // Adaugă noul răspuns în baza de date
         answersService.addAnswer(newAnswer);
 
-        // Redirecționează la pagina de vizualizare a testelor
         return "redirect:/api/users/viewtests";
     }
 

@@ -32,6 +32,39 @@
 <section class="home">
 </section>
 
+<div class="table-container">
+    <h2>Scan Tests</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Test ID</th>
+            <th>Test Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="test : ${tests}">
+            <td th:text="${test.id}" class="test-id"></td>
+            <td th:text="${test.testName}" class="test-name"></td>
+            <td>
+                <form action="/api/users/scan" method="post" class="scan-test" style="display: inline;">
+                    <input type="hidden" name="testId" th:value="${test.id}"/>
+                    <button type="button" class="scan-button" onclick="activateCamera()">Scan Test</button>
+                </form>
+
+                <form action="" method="post" class="upload-test" style="display: inline;">
+                    <input type="hidden" name="testId" th:value="${test.id}"/>
+
+                    <button type="submit" class="upload-button">Upload Image for Scan</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+
+
+    </table>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/scriptnavbar.js"></script>
 

@@ -47,27 +47,39 @@
             <td th:text="${test.id}" class="test-id"></td>
             <td th:text="${test.testName}" class="test-name"></td>
             <td>
-                <form action="/api/users/scan" method="post" class="scan-test" style="display: inline;">
-                    <input type="hidden" name="testId" th:value="${test.id}"/>
-                    <button type="button" class="scan-button" onclick="activateCamera()">Scan Test</button>
-                </form>
 
-                <!-- Adăugăm inputul de tip file pentru încărcarea imaginilor -->
-                <form action="/api/users/scan" method="post" enctype="multipart/form-data" class="upload-test" style="display: inline;">
-                    <input type="hidden" name="testId" th:value="${test.id}"/>
-                    <input type="file" name="image" accept="image/*"/> <!-- Acesta va permite utilizatorului să aleagă fișiere de tip imagine -->
-                    <button type="submit" class="upload-button">Upload Image for Scan</button>
-                </form>
+                <button type="button" class="toggle-button">Show Questions</button>
+                <ul class="questions-list" style="display: none;">
+                    <li th:each="question : ${questionsMap.get(test.id)}">
+
+                        <span th:text="${question.question}" class="question-text"></span>
+
+
+                        <button type="button" class="toggle-button-show-answers">Show Answers</button>
+                        <ul class="answers-list" style="display: none;">
+                            <li th:each="answer : ${answersMap.get(question.id)}">
+                                <span th:text="${answer.answerLetter}"></span>
+                                <span th:text="${answer.answer}"></span>
+                                <span th:if="${answer.correct}" class="correct-answer">(Correct)</span>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                </ul>
+
+                <button type="button" class="toggle-button">Scan Test</button>
+                <button type="button" class="toggle-button">Upload Test</button>
+
             </td>
         </tr>
         </tbody>
-
-
     </table>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/scriptnavbar.js"></script>
+<script src="/toggle.js"></script>
 
 </body>
 </html>

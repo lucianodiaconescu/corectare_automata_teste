@@ -6,22 +6,20 @@ import lucrare_licenta.entities.TestsEntity;
 import lucrare_licenta.services.AnswersService;
 import lucrare_licenta.services.QuestionsService;
 import lucrare_licenta.services.TestsService;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,51 +73,5 @@ public class ScanTestsController {
         modelAndView.addObject("answersMap", answersMap);
 
         return modelAndView;
-    }
-
-    @PostMapping("/api/users/scan")
-    public String processScanImage(@RequestParam("testId") Long testId, @RequestParam("image") MultipartFile imageFile) {
-        try {
-            // Salvăm fișierul pe disc
-            File file = new File(imageFile.getOriginalFilename());
-            imageFile.transferTo(file);
-
-            // Încărcăm imaginea utilizând OpenCV
-            Mat image = Imgcodecs.imread(file.getAbsolutePath());
-
-            // Convertim imaginea în gri
-            Mat grayImage = new Mat();
-            Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
-
-            // Aplicăm filtrul Gaussian pentru reducerea zgomotului
-            Mat blurredImage = new Mat();
-            Imgproc.GaussianBlur(grayImage, blurredImage, new Size(5, 5), 0);
-
-            // Detectăm marginile folosind metoda Canny
-            Mat edges = new Mat();
-            Imgproc.Canny(blurredImage, edges, 75, 200);
-
-            // Găsim contururile
-            List<MatOfPoint> contours = new ArrayList<>();
-            Imgproc.findContours(edges, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-            // Iterăm prin contururi și le desenăm pe imaginea originală
-            for (MatOfPoint contour : contours) {
-                // Ignorăm contururile foarte mici
-                if (Imgproc.contourArea(contour) > 2500) {
-                    Imgproc.drawContours(image, contours, contours.indexOf(contour), new Scalar(0, 255, 0), 2);
-                }
-            }
-
-            // Salvăm imaginea cu contururile desenate
-            String outputImagePath = "processed_image.jpg";
-            Imgcodecs.imwrite(outputImagePath, image);
-
-            // Întoarcem calea către imaginea procesată
-            return outputImagePath;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error processing image: " + e.getMessage();
-        }
     }
 }

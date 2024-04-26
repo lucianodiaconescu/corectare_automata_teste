@@ -47,11 +47,6 @@
             <td th:text="${test.testName}" class="test-name"></td>
             <td>
                 <button type="button" class="toggle-button">Show Questions</button>
-                <input class="upload-input" type="file" id="imageInput" accept="image/*">
-                <button class="upload-button" onclick="uploadAndScanImage()">Scan Image</button>
-                <div class="table-container">
-                    <div id="scannedText"></div>
-                </div>
                 <ul class="questions-list" style="display: none;">
                     <li th:each="question : ${questionsMap.get(test.id)}">
                         <span th:text="${question.question}" class="question-text"></span>
@@ -65,6 +60,11 @@
                         </ul>
                     </li>
                 </ul>
+                <input class="upload-input" type="file" id="imageInput" accept="image/*">
+                <button class="upload-button" onclick="uploadAndScanImage()">Scan Image</button>
+                <div class="table-container">
+                    <div id="scannedText"></div>
+                </div>
             </td>
         </tr>
         </tbody>

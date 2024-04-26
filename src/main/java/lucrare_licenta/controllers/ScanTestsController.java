@@ -74,4 +74,25 @@ public class ScanTestsController {
 
         return modelAndView;
     }
+
+    @PostMapping("/api/users/scantests/upload")
+    public ResponseEntity<String> uploadAndScanImage(@RequestParam("image") MultipartFile image) {
+        if (image.isEmpty()) {
+            return new ResponseEntity<>("Image is empty", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(image.getBytes()));
+
+            ITesseract tesseract = new Tesseract();
+            tesseract.setDatapath("C:\\Users\\Luciano\\Desktop\\tessdata");
+
+            String scannedText = tesseract.doOCR(bufferedImage);
+
+            return new ResponseEntity<>(scannedText, HttpStatus.OK);
+        } catch (IOException | TesseractException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error processing image", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

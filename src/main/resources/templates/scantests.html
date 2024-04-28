@@ -62,8 +62,16 @@
                         </ul>
                     </li>
                 </ul>
-                <input class="upload-input" type="file" id="imageInput" accept="image/*">
-                <button class="upload-button" onclick="uploadAndScanImage()">Scan Image</button>
+
+
+                <form action="/api/users/scantests/upload" method="post" class="upload-form" enctype="multipart/form-data">
+                    <input class="upload-input" type="file" id="imageInput" name="image" accept="image/*">
+                    <input type="hidden" name="testId" th:value="${test.id}"/>
+                    <button type="submit" class="scan-button">Scan Image</button>
+                </form>
+
+
+
                 <div class="table-container">
                     <div id="scannedText"></div>
                 </div>

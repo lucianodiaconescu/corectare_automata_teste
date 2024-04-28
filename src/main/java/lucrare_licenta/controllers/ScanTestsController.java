@@ -34,6 +34,7 @@ public class ScanTestsController {
     private final QuestionsService questionsService;
     private final AnswersService answersService;
     private final AnswersRepository answersRepository;
+    Map<Long, List<String>> correctAnswersMap = new HashMap<>();
 
     @Autowired
     public ScanTestsController(LoginController loginController, TestsService testsService, QuestionsService questionsService, AnswersService answersService, AnswersRepository answersRepository) {
@@ -55,7 +56,7 @@ public class ScanTestsController {
 
         Map<Long, List<QuestionsEntity>> questionsMap = new HashMap<>();
         Map<Long, List<AnswersEntity>> answersMap = new HashMap<>();
-        Map<Long, List<String>> correctAnswersMap = new HashMap<>();
+
 
         for (TestsEntity test : tests) {
             List<QuestionsEntity> questions = questionsService.getQuestionsForTest(test.getId());
@@ -87,9 +88,12 @@ public class ScanTestsController {
     }
 
     @PostMapping("/api/users/scantests/upload")
-    public ResponseEntity<String> uploadAndScanImage(@RequestParam("image") MultipartFile image) {
-        if (image.isEmpty()) {
-            return new ResponseEntity<>("Image is empty", HttpStatus.BAD_REQUEST);
+    public ModelAndView uploadAndScanImage(@RequestParam("image") MultipartFile image, @RequestParam("testId") Long testId) {
+        ModelAndView modelAndView = new ModelAndView("result");
+
+        if (image == null || image.isEmpty()) {
+            modelAndView.addObject("error", "Image is empty");
+            return modelAndView;
         }
 
         try {
@@ -105,10 +109,39 @@ public class ScanTestsController {
                 characters.add(c);
             }
 
-            return new ResponseEntity<>(scannedText, HttpStatus.OK);
-        } catch (IOException | TesseractException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Error processing image", HttpStatus.INTERNAL_SERVER_ERROR);
+            List<String> correctAnswersList = correctAnswersMap.get(testId);
+            StringBuilder resultText = new StringBuilder();
+
+            if (characters.size() > correctAnswersList.size()) {
+                for (int i = 0; i < correctAnswersList.size(); i++) {
+                    if (correctAnswersList.get(i).charAt(0) == characters.get(i).charValue()) {
+                        String text = "Correct";
+                        resultText.append(text).append("\n");
+                    } else {
+                        String text = "Wrong";
+                        resultText.append(text).append("\n");
+                    }
+                }
+            } else {
+                for (int i = 0; i < characters.size(); i++) {
+                    if (correctAnswersList.get(i).charAt(0) == characters.get(i).charValue()) {
+                        String text = "Correct";
+                        resultText.append(text).append("\n");
+                    } else {
+                        String text = "Wrong";
+                        resultText.append(text).append("\n");
+                    }
+                }
+            }
+
+            modelAndView.addObject("resultText", resultText.toString());
+            return modelAndView;
+        } catch (TesseractException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
+
+
 }

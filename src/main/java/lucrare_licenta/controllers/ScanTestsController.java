@@ -3,6 +3,7 @@ package lucrare_licenta.controllers;
 import lucrare_licenta.entities.AnswersEntity;
 import lucrare_licenta.entities.QuestionsEntity;
 import lucrare_licenta.entities.TestsEntity;
+import lucrare_licenta.repositories.AnswersRepository;
 import lucrare_licenta.services.AnswersService;
 import lucrare_licenta.services.QuestionsService;
 import lucrare_licenta.services.TestsService;
@@ -32,13 +33,15 @@ public class ScanTestsController {
     private final TestsService testsService;
     private final QuestionsService questionsService;
     private final AnswersService answersService;
+    private final AnswersRepository answersRepository;
 
     @Autowired
-    public ScanTestsController(LoginController loginController, TestsService testsService, QuestionsService questionsService, AnswersService answersService) {
+    public ScanTestsController(LoginController loginController, TestsService testsService, QuestionsService questionsService, AnswersService answersService, AnswersRepository answersRepository) {
         this.loginController = loginController;
         this.testsService = testsService;
         this.questionsService = questionsService;
         this.answersService = answersService;
+        this.answersRepository = answersRepository;
     }
 
     @GetMapping("/api/users/scantests")
@@ -52,26 +55,34 @@ public class ScanTestsController {
 
         Map<Long, List<QuestionsEntity>> questionsMap = new HashMap<>();
         Map<Long, List<AnswersEntity>> answersMap = new HashMap<>();
+        Map<Long, List<String>> correctAnswersMap = new HashMap<>();
 
         for (TestsEntity test : tests) {
             List<QuestionsEntity> questions = questionsService.getQuestionsForTest(test.getId());
             questionsMap.put(test.getId(), questions);
+            List<String> correctAnswers = new ArrayList<>();
 
             for (QuestionsEntity question : questions) {
                 Long questionId = question.getId();
 
                 List<AnswersEntity> answers = answersService.getAnswersForQuestion(questionId);
 
+
                 for (AnswersEntity answer : answers) {
                     answer.setAnswerLetter(answer.getAnswerLetter());
+                    if (answer.isCorrect()) {
+                        correctAnswers.add(answer.getAnswerLetter());
+                    }
                 }
+
                 answersMap.put(questionId, answers);
             }
+            correctAnswersMap.put(test.getId(), correctAnswers);
         }
 
         modelAndView.addObject("questionsMap", questionsMap);
         modelAndView.addObject("answersMap", answersMap);
-
+        modelAndView.addObject("correctAnswersMap", correctAnswersMap);
         return modelAndView;
     }
 
@@ -88,6 +99,11 @@ public class ScanTestsController {
             tesseract.setDatapath("C:\\Users\\Luciano\\Desktop\\tessdata");
 
             String scannedText = tesseract.doOCR(bufferedImage);
+
+            List<Character> characters = new ArrayList<>();
+            for (char c : scannedText.toCharArray()) {
+                characters.add(c);
+            }
 
             return new ResponseEntity<>(scannedText, HttpStatus.OK);
         } catch (IOException | TesseractException e) {

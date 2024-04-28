@@ -45,5 +45,4 @@ public class AnswersService {
             answersRepository.delete(answer);
         }
     }
-
 }

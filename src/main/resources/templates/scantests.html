@@ -38,6 +38,7 @@
         <tr>
             <th>Test ID</th>
             <th>Test Name</th>
+            <th>Answers</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -45,6 +46,7 @@
         <tr th:each="test : ${tests}">
             <td th:text="${test.id}" class="test-id"></td>
             <td th:text="${test.testName}" class="test-name"></td>
+            <td th:text="${correctAnswersMap[test.id]}"></td>
             <td>
                 <button type="button" class="toggle-button">Show Questions</button>
                 <ul class="questions-list" style="display: none;">
